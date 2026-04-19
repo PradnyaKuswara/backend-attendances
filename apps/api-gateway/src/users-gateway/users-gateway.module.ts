@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { UsersGatewayController } from './users-gateway.controller';
+import { UsersAdminGatewayController } from './admin/users-admin-gateway.controller';
 import { UsersGatewayService } from './users-gateway.service';
 import 'dotenv/config';
 import { AuthModule as LibAuthModule } from '@app/auth';
@@ -19,7 +19,7 @@ import { AuthModule as LibAuthModule } from '@app/auth';
       },
     ]),
   ],
-  controllers: [UsersGatewayController],
+  controllers: [UsersAdminGatewayController],
   providers: [UsersGatewayService],
 })
 export class UsersGatewayModule {}

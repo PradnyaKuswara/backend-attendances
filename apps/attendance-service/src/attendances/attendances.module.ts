@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import 'dotenv/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Attendance } from './entities/attendances.entity';
+import { AttendanceService } from './attendances.service';
+import { AttendanceMessageController } from './attendances-message.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { AuthMessageController } from './auth-message.controller';
-import { AuthModule as LibAuthModule } from '@app/auth';
 
 @Module({
   imports: [
-    LibAuthModule,
+    TypeOrmModule.forFeature([Attendance]),
     ClientsModule.register([
       {
         name: 'USER_SERVICE',
@@ -19,7 +19,7 @@ import { AuthModule as LibAuthModule } from '@app/auth';
       },
     ]),
   ],
-  controllers: [AuthMessageController],
-  providers: [AuthService],
+  controllers: [AttendanceMessageController],
+  providers: [AttendanceService],
 })
-export class AuthModule {}
+export class AttendanceModule {}

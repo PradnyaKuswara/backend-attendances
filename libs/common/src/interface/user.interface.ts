@@ -20,3 +20,6 @@ export interface UserInterface {
 export type UserResponseDataType = ResponseInterface<UserInterface>;
 
 export type UserWithoutPasswordType = Omit<UserInterface, 'password'>;
+
+export type UserWithoutPasswordResponseDataType =
+  ResponseInterface<UserWithoutPasswordType>;

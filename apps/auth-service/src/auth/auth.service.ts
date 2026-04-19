@@ -51,10 +51,27 @@ export class AuthService {
       role: user.role?.name ?? null,
     };
 
-    const accessToken = await this.jwtService.signAsync(jwtPayload);
+    const accessToken = await this.jwtService.signAsync(jwtPayload, {
+      expiresIn: '1d',
+    });
 
     return {
       access_token: accessToken,
     };
+  }
+
+  async userInfo(user_id: number) {
+    const { data: user } = await firstValueFrom(
+      this.userClient.send<UserResponseDataType>(
+        { cmd: 'find_user_by_id' },
+        { id: user_id },
+      ),
+    );
+
+    if (!user) {
+      throw rpcUnauthorized('User not found');
+    }
+
+    return user;
   }
 }

@@ -17,4 +17,13 @@ export class AuthMessageController {
       message: 'Login success',
     });
   }
+
+  @MessagePattern({ cmd: 'auth_user_info' })
+  async userInfo(@Payload() user_id: number) {
+    const res = await this.authService.userInfo(user_id);
+    return successResponse({
+      data: res,
+      message: 'User info fetched successfully',
+    });
+  }
 }

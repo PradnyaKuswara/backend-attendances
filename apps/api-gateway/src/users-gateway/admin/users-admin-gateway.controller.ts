@@ -17,12 +17,12 @@ import { Role } from '@app/common/enums/role.enum';
 import { CreateUserDto } from '@app/common/dto/create-user.dto';
 import { UpdateUserDto } from '@app/common/dto/update-user.dto';
 import { UpdateUserStatusDto } from '@app/common/dto/update-user-status.dto';
-import { UsersGatewayService } from './users-gateway.service';
+import { UsersGatewayService } from '../users-gateway.service';
 
 @Controller('admin/users')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(Role.SUPER_ADMIN)
-export class UsersGatewayController {
+export class UsersAdminGatewayController {
   constructor(private readonly usersGatewayService: UsersGatewayService) {}
 
   @Post()

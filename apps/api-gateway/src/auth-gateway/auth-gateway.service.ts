@@ -23,4 +23,17 @@ export class AuthGatewayService {
       handleRpcError(error);
     }
   }
+
+  async userInfo(user_id: number) {
+    try {
+      return await firstValueFrom(
+        this.authClient.send<unknown, number>(
+          { cmd: 'auth_user_info' },
+          user_id,
+        ),
+      );
+    } catch (error: unknown) {
+      handleRpcError(error);
+    }
+  }
 }

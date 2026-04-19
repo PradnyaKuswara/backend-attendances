@@ -20,7 +20,8 @@
     "start:dev:user": "nest start user-service --watch",
     "start:dev:auth": "nest start auth-service --watch",
     "start:dev:gateway": "nest start api-gateway --watch",
-    "start:dev": "concurrently \"npm run start:dev:user\" \"npm run start:dev:auth\" \"npm run start:dev:gateway\""
+    "start:dev:attendance": "nest start attendance-service --watch",
+    "start:dev": "concurrently \"npm run start:dev:user\" \"npm run start:dev:auth\" \"npm run start:dev:attendance\" \"npm run start:dev:gateway\""
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
