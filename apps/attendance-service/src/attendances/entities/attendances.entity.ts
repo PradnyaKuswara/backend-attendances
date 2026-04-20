@@ -27,10 +27,22 @@ export class Attendance {
   date: string;
 
   @Column({ type: 'timestamp', nullable: true })
-  check_in: Date | null;
+  check_in_at: Date | null;
 
   @Column({ type: 'timestamp', nullable: true })
-  check_out: Date | null;
+  check_out_at: Date | null;
+
+  @Column({ type: 'decimal', precision: 10, scale: 7, nullable: true })
+  check_in_latitude: number | null;
+
+  @Column({ type: 'decimal', precision: 10, scale: 7, nullable: true })
+  check_in_longitude: number | null;
+
+  @Column({ type: 'decimal', precision: 10, scale: 7, nullable: true })
+  check_out_latitude: number | null;
+
+  @Column({ type: 'decimal', precision: 10, scale: 7, nullable: true })
+  check_out_longitude: number | null;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   photo_url: string | null;
@@ -52,5 +64,5 @@ export class Attendance {
   updated_at: Date;
 
   @DeleteDateColumn()
-  deleted_at: Date;
+  deleted_at: Date | null;
 }

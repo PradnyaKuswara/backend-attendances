@@ -21,4 +21,25 @@ export class AttendancesGatewayService {
       this.attendanceClient.send({ cmd: 'find_all_attendances' }, {}),
     );
   }
+
+  findByUser(userId: number) {
+    return firstValueFrom<unknown>(
+      this.attendanceClient.send({ cmd: 'find_attendances_by_user' }, userId),
+    );
+  }
+
+  findLastByUser(userId: number) {
+    return firstValueFrom<unknown>(
+      this.attendanceClient.send(
+        { cmd: 'find_last_attendance_by_user' },
+        userId,
+      ),
+    );
+  }
+
+  checkOut(userId: number) {
+    return firstValueFrom<unknown>(
+      this.attendanceClient.send({ cmd: 'check_out_attendance' }, userId),
+    );
+  }
 }

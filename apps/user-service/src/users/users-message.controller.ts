@@ -52,6 +52,16 @@ export class UsersMessageController {
     });
   }
 
+  @MessagePattern({ cmd: 'find_user_by_ids' })
+  async findByIds(@Payload('ids') ids: number[]) {
+    const res = await this.usersService.findByIds(ids);
+
+    return successResponse({
+      data: res,
+      message: 'Users fetched successfully',
+    });
+  }
+
   @MessagePattern({ cmd: 'update_user' })
   async update(@Payload() payload: { id: number; data: UpdateUserDto }) {
     const res = await this.usersService.update(payload.id, payload.data);

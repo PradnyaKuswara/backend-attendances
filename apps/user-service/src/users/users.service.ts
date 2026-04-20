@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 import { User } from './entities/users.entity';
@@ -96,6 +96,15 @@ export class UsersService {
     }
 
     return user;
+  }
+
+  async findByIds(ids: number[]): Promise<UserWithoutPasswordType[]> {
+    const users = await this.userRepository.find({
+      where: { id: In(ids) },
+      relations: ['role'],
+    });
+
+    return users.map(omitPassword);
   }
 
   async update(

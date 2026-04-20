@@ -28,9 +28,7 @@ export class AttendanceMessageController {
     return successResponse({
       message: 'Attendances fetched successfully',
       status: 200,
-      data: {
-        attendances: res,
-      },
+      data: res,
     });
   }
 
@@ -41,9 +39,18 @@ export class AttendanceMessageController {
     return successResponse({
       message: 'Attendances fetched successfully',
       status: 200,
-      data: {
-        attendances: res,
-      },
+      data: res,
+    });
+  }
+
+  @MessagePattern({ cmd: 'find_last_attendance_by_user' })
+  async findLastByUser(@Payload() userId: number) {
+    const res = await this.attendanceService.findLastByUser(userId);
+
+    return successResponse({
+      message: 'Last attendance fetched successfully',
+      status: 200,
+      data: res,
     });
   }
 
