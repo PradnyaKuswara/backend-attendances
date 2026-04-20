@@ -27,25 +27,26 @@ export class UsersAdminGatewayController {
 
   @Post()
   create(@Body() dto: CreateUserDto) {
-    console.log('[Gateway Controller] -> Create user request received');
     return this.usersGatewayService.create(dto);
   }
 
   @Get()
   findAll() {
-    console.log('[Gateway Controller] -> Find all users request received');
     return this.usersGatewayService.findAll();
+  }
+
+  @Get('roles')
+  findAllRoles() {
+    return this.usersGatewayService.findAllRoles();
   }
 
   @Get(':id')
   findById(@Param('id', ParseIntPipe) id: number) {
-    console.log('[Gateway Controller] -> Find user by id request received');
     return this.usersGatewayService.findById(id);
   }
 
   @Put(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateUserDto) {
-    console.log('[Gateway Controller] -> Update user request received');
     return this.usersGatewayService.update(id, dto);
   }
 
@@ -54,13 +55,11 @@ export class UsersAdminGatewayController {
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateUserStatusDto,
   ) {
-    console.log('[Gateway Controller] -> Update user status request received');
     return this.usersGatewayService.updateStatus(id, dto);
   }
 
   @Delete(':id')
   delete(@Param('id', ParseIntPipe) id: number) {
-    console.log('[Gateway Controller] -> Delete user request received');
     return this.usersGatewayService.delete(id);
   }
 }

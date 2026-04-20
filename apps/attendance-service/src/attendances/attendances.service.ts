@@ -23,9 +23,10 @@ export class AttendanceService {
   ) {}
 
   async create(dto: CreateAttendanceDto): Promise<Attendance> {
+    console.log(dto);
     const response =
       await firstValueFrom<UserWithoutPasswordResponseDataType | null>(
-        this.userClient.send({ cmd: 'find_user_by_id' }, dto.user_id),
+        this.userClient.send({ cmd: 'find_user_by_id' }, { id: dto.user_id }),
       );
 
     if (!response || !response.data) {
@@ -39,7 +40,13 @@ export class AttendanceService {
     }
 
     const now = new Date();
-    const today = now.toISOString().split('T')[0];
+
+    const today = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Asia/Jakarta',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(now);
 
     const existingAttendance = await this.attendanceRepository.findOne({
       where: {
@@ -47,6 +54,8 @@ export class AttendanceService {
         date: today,
       },
     });
+
+    console.log(existingAttendance);
 
     if (existingAttendance) {
       throw rpcBadRequest('You have already checked in today');
@@ -83,15 +92,27 @@ export class AttendanceService {
 
     const userIds = [...new Set(attendances.map((item) => item.user_id))];
 
-    const users: UserWithoutPasswordType[] = await firstValueFrom(
-      this.userClient.send<UserWithoutPasswordType[]>(
-        { cmd: 'find_user_by_ids' },
-        userIds,
-      ),
-    );
+    if (!userIds.length) {
+      return attendances.map((attendance) => ({
+        ...attendance,
+        user: null,
+      }));
+    }
+
+    const users: UserWithoutPasswordResponseDataType | null =
+      await firstValueFrom(
+        this.userClient.send({ cmd: 'find_user_by_ids' }, { ids: userIds }),
+      );
+
+    if (!users || !users.data || !Array.isArray(users.data)) {
+      return attendances.map((attendance) => ({
+        ...attendance,
+        user: null,
+      }));
+    }
 
     const userMap = new Map<number, UserWithoutPasswordType>(
-      users.map((user) => [user.id, user]),
+      users.data.map((user: UserWithoutPasswordType) => [user.id, user]),
     );
 
     return attendances.map((attendance) => ({
@@ -123,7 +144,13 @@ export class AttendanceService {
     checkOutLatitude?: number,
     checkOutLongitude?: number,
   ): Promise<Attendance> {
-    const today = new Date().toISOString().split('T')[0];
+    const now = new Date();
+    const today = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Asia/Jakarta',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(now);
 
     const attendance = await this.attendanceRepository.findOne({
       where: {

@@ -40,4 +40,9 @@ export class UsersGatewayService {
   delete(id: number) {
     return firstValueFrom(this.userClient.send({ cmd: 'delete_user' }, { id }));
   }
+
+  findAllRoles() {
+    console.log('[Gateway Service] -> Find all roles request received');
+    return firstValueFrom(this.userClient.send({ cmd: 'find_all_roles' }, {}));
+  }
 }

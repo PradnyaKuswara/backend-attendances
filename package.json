@@ -22,7 +22,8 @@
     "start:dev:gateway": "nest start api-gateway --watch",
     "start:dev:attendance": "nest start attendance-service --watch",
     "start:dev:file": "nest start file-service --watch",
-    "start:dev": "concurrently \"npm run start:dev:user\" \"npm run start:dev:auth\" \"npm run start:dev:attendance\" \"npm run start:dev:gateway\" \"npm run start:dev:file\""
+    "start:dev:dashboard": "nest start dashboard-service --watch",
+    "start:dev": "concurrently \"npm run start:dev:user\" \"npm run start:dev:auth\" \"npm run start:dev:attendance\" \"npm run start:dev:gateway\" \"npm run start:dev:file\" \"npm run start:dev:dashboard\""
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1032.0",
